@@ -1,0 +1,36 @@
+{
+  "name": "music-donation",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "test": "prisma generate && vitest run",
+    "test:watch": "vitest",
+    "db:push": "prisma db push",
+    "prisma:generate": "prisma generate"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.750.0",
+    "@aws-sdk/s3-request-presigner": "^3.750.0",
+    "@prisma/client": "^6.2.1",
+    "lucide-react": "^0.468.0",
+    "next": "15.5.18",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "resend": "^4.0.1",
+    "stripe": "^17.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "prisma": "^6.2.1",
+    "typescript": "^5.7.3",
+    "vitest": "3.2.4"
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
+  }
+}
