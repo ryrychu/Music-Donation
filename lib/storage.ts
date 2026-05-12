@@ -4,6 +4,16 @@ import { requiredEnv, signedDownloadTtlSeconds } from "@/lib/env";
 
 let client: SupabaseClient | null = null;
 
+export class AlbumStorageError extends Error {
+  constructor(
+    message: string,
+    readonly code: "object_not_found" | "storage_error",
+  ) {
+    super(message);
+    this.name = "AlbumStorageError";
+  }
+}
+
 function getSupabaseAdminClient(): SupabaseClient {
   if (!client) {
     client = createClient(requiredEnv("SUPABASE_URL"), requiredEnv("SUPABASE_SECRET_KEY"), {
@@ -27,7 +37,9 @@ export async function createSignedAlbumDownloadUrl(): Promise<{ url: string; exp
     });
 
   if (error || !data?.signedUrl) {
-    throw new Error(error?.message || "Could not create a signed Supabase Storage URL.");
+    const message = error?.message || "Could not create a signed Supabase Storage URL.";
+    const code = message.toLowerCase().includes("object not found") ? "object_not_found" : "storage_error";
+    throw new AlbumStorageError(message, code);
   }
 
   return { url: data.signedUrl, expiresInSeconds };
